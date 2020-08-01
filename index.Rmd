@@ -2,7 +2,7 @@
 title: "PlotlyProject"
 author: "Endless-Void"
 date: "7/31/2020"
-output: html_document
+output: ioslides_presentation
 ---
 
 ```{r setup, include=FALSE}
@@ -21,10 +21,19 @@ library(reshape2)
 ```
 
 
-# Iris Data Set
-### Scatter Plot. 
+## Iris Data Set
+
 
 According to the R documentation, the "iris" data set *"gives the measurements in centimeters of the variables sepal length and width and petal length and width, respectively, for 50 flowers from each of 3 species of iris. The species are Iris setosa, versicolor, and virginica."*
+
+```{r striris}
+str(iris)
+```
+
+
+
+
+## Scatter Plot.
 
 ```{r figure1, echo=FALSE}
 fig1 <- ggplot(iris, aes(Sepal.Width, Sepal.Length)) +
@@ -42,7 +51,7 @@ fig1 <- ggplot(iris, aes(Sepal.Width, Sepal.Length)) +
 ggplotly(fig1)
 ```
 
-### Density and Box Plots.
+## Density and Box Plots.
 
 ```{r figure2, message=FALSE, echo=FALSE}
 den1 <- ggplot(iris, aes(x = Sepal.Length)) + 
@@ -96,20 +105,21 @@ bp2 <- ggplot(iris, aes(x = Species, y = Sepal.Width)) +
 subplot(den1, bp1, den2, bp2, nrows = 2)
 ```
 
-# EuStockMarkets Data Set.
+## EuStockMarkets Data Set.
+
+According to the R documentation, the "EuStockMarkets" data set: *"Contains the daily closing prices of major European stock indices:* 
+
+- *Germany DAX (Ibis)*
+
+- *Switzerland SMI.*
+
+- *France CAC.*
+
+- *UK FTSE.*
+
+*The data are sampled in business time, i.e., weekends and holidays are omitted."*
+
 ## Time Series Plots.
-
-According to the R documentation, the "EuStockMarkets" data set: *"Contains the daily closing prices of major European stock indices:"* 
-
-- *"Germany DAX (Ibis)"*
-
-- *"Switzerland SMI."*
-
-- *"France CAC."*
-
-- *"UK FTSE."*
-
-*"The data are sampled in business time, i.e., weekends and holidays are omitted."*
 
 ```{r figure3, echo=FALSE, message=FALSE, warning=FALSE}
 ESM <- data.frame(Date = time(EuStockMarkets), 
@@ -129,5 +139,8 @@ fig3 <- ggplot(ESM, aes(x = Date, y = value)) +
 ggplotly(fig3)
 ```
 
+## THE END.
+
 Hope you liked.
+
 Ty :3
