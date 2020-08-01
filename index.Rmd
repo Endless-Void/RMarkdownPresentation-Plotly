@@ -1,0 +1,133 @@
+---
+title: "PlotlyProject"
+author: "Endless-Void"
+date: "7/31/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+##Some Plotly Graphs.
+
+Hi. I just want to show you some graphs that i made using plotly and ggplot.
+
+```{r libs, message=FALSE, warning=FALSE, echo=FALSE}
+library(ggplot2)
+library(ggpubr)
+library(plotly)
+library(reshape2)
+```
+
+
+# Iris Data Set
+### Scatter Plot. 
+
+According to the R documentation, the "iris" data set *"gives the measurements in centimeters of the variables sepal length and width and petal length and width, respectively, for 50 flowers from each of 3 species of iris. The species are Iris setosa, versicolor, and virginica."*
+
+```{r figure1, echo=FALSE}
+fig1 <- ggplot(iris, aes(Sepal.Width, Sepal.Length)) +
+        geom_point(aes(color = Species, fill = Species), pch = 21, size = 3.5,
+                   alpha = 0.9) +
+        scale_fill_manual("Species", 
+                           values = c("setosa" = "white", 
+                                      "versicolor" = "purple",
+                                      "virginica" = "orange")) +
+        scale_color_manual("Species", 
+                          values = c("setosa" = "black", 
+                                     "versicolor" = "black",
+                                     "virginica" = "black")) + 
+        ggtitle("Sepal Dimensions")
+ggplotly(fig1)
+```
+
+### Density and Box Plots.
+
+```{r figure2, message=FALSE, echo=FALSE}
+den1 <- ggplot(iris, aes(x = Sepal.Length)) + 
+        geom_density(aes(color = Species, fill = Species), alpha = 0.7) +
+        scale_fill_manual("Species", 
+                          values = c("setosa" = "white", 
+                                     "versicolor" = "purple",
+                                     "virginica" = "orange")) +
+        scale_color_manual("Species", 
+                           values = c("setosa" = "black", 
+                                      "versicolor" = "black",
+                                      "virginica" = "black")) +
+        ggtitle("Sepal Length") + theme(legend.position = "none")
+
+bp1 <- ggplot(iris, aes(x = Species, y = Sepal.Length)) + 
+        geom_boxplot(aes(color = Species, fill = Species)) +
+        scale_fill_manual("Species", 
+                          values = c("setosa" = "white", 
+                                     "versicolor" = "purple",
+                                     "virginica" = "orange")) +
+        scale_color_manual("Species", 
+                           values = c("setosa" = "black", 
+                                      "versicolor" = "black",
+                                      "virginica" = "black")) +
+        ggtitle("Sepal Length") + theme(legend.position = "none")
+
+den2 <- ggplot(iris, aes(x = Sepal.Width)) + 
+        geom_density(aes(color = Species, fill = Species), alpha = 0.7) +
+        scale_fill_manual("Species", 
+                          values = c("setosa" = "white", 
+                                     "versicolor" = "purple",
+                                     "virginica" = "orange")) +
+        scale_color_manual("Species", 
+                           values = c("setosa" = "black", 
+                                      "versicolor" = "black",
+                                      "virginica" = "black")) +
+        ggtitle("Sepal Width") + theme(legend.position = "none")
+
+bp2 <- ggplot(iris, aes(x = Species, y = Sepal.Width)) + 
+        geom_boxplot(aes(color = Species, fill = Species)) +
+        scale_fill_manual("Species", 
+                          values = c("setosa" = "white", 
+                                     "versicolor" = "purple",
+                                     "virginica" = "orange")) +
+        scale_color_manual("Species", 
+                           values = c("setosa" = "black", 
+                                      "versicolor" = "black",
+                                      "virginica" = "black")) +
+        ggtitle("Summary of Sepal Dimensions") + theme(legend.position = "none")
+
+subplot(den1, bp1, den2, bp2, nrows = 2)
+```
+
+# EuStockMarkets Data Set.
+## Time Series Plots.
+
+According to the R documentation, the "EuStockMarkets" data set: *"Contains the daily closing prices of major European stock indices:"* 
+
+- *"Germany DAX (Ibis)"*
+
+- *"Switzerland SMI."*
+
+- *"France CAC."*
+
+- *"UK FTSE."*
+
+*"The data are sampled in business time, i.e., weekends and holidays are omitted."*
+
+```{r figure3, echo=FALSE, message=FALSE, warning=FALSE}
+ESM <- data.frame(Date = time(EuStockMarkets), 
+                  as.matrix(EuStockMarkets))
+ESM <- melt(data = ESM, id.vars = "Date", 
+            measure.vars = c("DAX", "SMI", "CAC", "FTSE"))
+
+fig3 <- ggplot(ESM, aes(x = Date, y = value)) + 
+        geom_line(aes(color = variable)) +
+        scale_color_manual("European stock indices", 
+                          values = c("DAX" = "green", 
+                                     "SMI" = "purple",
+                                     "CAC" = "orange",
+                                     "FTSE" = "black")) +
+        ylab("Closing Price") + 
+        ggtitle("Daily Closing Prices of European Stock Indices")
+ggplotly(fig3)
+```
+
+Hope you liked.
+Ty :3
